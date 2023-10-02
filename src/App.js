@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import TaskList from './TaskList';
+import TaskForm from './TaskForm';
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+
+  const addTask = (taskText) => {
+    setTasks([...tasks, { text: taskText, completed: false }]);
+  };
+
+  const completeTask = (index) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Gestor de Tareas Personales</h1>
+      <TaskForm onAddTask={addTask} />
+      <TaskList tasks={tasks} onCompleteTask={completeTask} />
     </div>
   );
 }
 
 export default App;
+
+
